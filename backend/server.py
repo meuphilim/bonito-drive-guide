@@ -70,7 +70,7 @@ async def health_check():
     """Health check endpoint for PWA and monitoring"""
     try:
         # Test database connection
-        await db.admin.command('ping')
+        await client.admin.command('ping')
         return {
             "status": "healthy",
             "timestamp": datetime.utcnow(),
