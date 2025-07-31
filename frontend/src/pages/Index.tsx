@@ -374,8 +374,17 @@ const Index = () => {
           <span className="text-sm text-muted-foreground">
             {filteredAttractions.length} locais
             {geolocation.location && " • GPS ativo"}
+            {attractionsAPI.loading && " • Carregando..."}
+            {attractionsAPI.error && " • Offline"}
           </span>
         </div>
+        
+        {attractionsAPI.loading && filteredAttractions.length === 0 && (
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Carregando atrativos turísticos...</p>
+          </div>
+        )}
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredAttractions.map((attraction: any) => {
