@@ -1,7 +1,11 @@
 {
-  "name": "vite_react_shadcn_ts",
+  "name": "ecoexpedicoes",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Guia turístico PWA para Bonito, MS - Compatível com Android Auto",
+  "keywords": ["pwa", "android-auto", "turismo", "bonito", "ecoexpedicoes"],
+  "author": "Ecoexpedições Team",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vite",
