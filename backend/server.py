@@ -10,6 +10,8 @@ from typing import List
 import uuid
 from datetime import datetime
 
+# Import attraction routes
+from attractions_routes import router as attractions_router
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -20,13 +22,16 @@ client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
 # Create the main app without a prefix
-app = FastAPI()
+app = FastAPI(
+    title="Bonito Drive Guide API",
+    description="API para guia turístico de Bonito, MS - PWA Android Auto",
+    version="1.0.0"
+)
 
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
-
-# Define Models
+# Define Models for backwards compatibility
 class StatusCheck(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     client_name: str
@@ -35,10 +40,18 @@ class StatusCheck(BaseModel):
 class StatusCheckCreate(BaseModel):
     client_name: str
 
-# Add your routes to the router instead of directly to app
+# Add legacy routes to the router
 @api_router.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {
+        "message": "Bonito Drive Guide API",
+        "version": "1.0.0",
+        "endpoints": [
+            "/api/attractions - Tourist attractions",
+            "/api/status - System status",
+            "/api/docs - API documentation"
+        ]
+    }
 
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate):
@@ -52,8 +65,31 @@ async def get_status_checks():
     status_checks = await db.status_checks.find().to_list(1000)
     return [StatusCheck(**status_check) for status_check in status_checks]
 
-# Include the router in the main app
+@api_router.get("/health")
+async def health_check():
+    """Health check endpoint for PWA and monitoring"""
+    try:
+        # Test database connection
+        await db.admin.command('ping')
+        return {
+            "status": "healthy",
+            "timestamp": datetime.utcnow(),
+            "database": "connected",
+            "version": "1.0.0"
+        }
+    except Exception as e:
+        return {
+            "status": "unhealthy",
+            "timestamp": datetime.utcnow(),
+            "database": "disconnected",
+            "error": str(e)
+        }
+
+# Include the main API router
 app.include_router(api_router)
+
+# Include attractions routes
+app.include_router(attractions_router)
 
 app.add_middleware(
     CORSMiddleware,
@@ -70,6 +106,33 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+@app.on_event("startup")
+async def startup_event():
+    """Initialize database and populate with sample data if empty"""
+    logger.info("Starting up Bonito Drive Guide API...")
+    
+    # Check if attractions collection exists and has data
+    attractions_count = await db.attractions.count_documents({})
+    
+    if attractions_count == 0:
+        logger.info("Populating database with initial attractions data...")
+        await populate_initial_data()
+
 @app.on_event("shutdown")
 async def shutdown_db_client():
     client.close()
+
+async def populate_initial_data():
+    """Populate database with initial attractions data"""
+    from data.initial_attractions import get_initial_attractions
+    
+    try:
+        attractions_data = get_initial_attractions()
+        if attractions_data:
+            result = await db.attractions.insert_many(attractions_data)
+            logger.info(f"Inserted {len(result.inserted_ids)} attractions")
+        else:
+            logger.warning("No initial attractions data found")
+    except Exception as e:
+        logger.error(f"Error populating initial data: {e}")
+        # Continue startup even if population fails
