@@ -19,15 +19,99 @@ const Index = () => {
   const [currentView, setCurrentView] = useState<"home" | "detail">("home");
   const [filteredAttractions, setFilteredAttractions] = useState(attractions);
 
+  // PWA hooks
+  const pwa = usePWA();
+  const geolocation = useGeolocation();
+
   useEffect(() => {
     // Force dark mode for automotive experience
     document.documentElement.classList.add('dark');
+    
+    // Load favorites from localStorage
+    const savedFavorites = localStorage.getItem('bonito-favorites');
+    if (savedFavorites) {
+      setFavorites(JSON.parse(savedFavorites));
+    }
+
+    // Get user location on startup
+    if (geolocation.isSupported) {
+      geolocation.getCurrentPosition();
+    }
   }, []);
+
+  // Save favorites to localStorage
+  useEffect(() => {
+    localStorage.setItem('bonito-favorites', JSON.stringify(favorites));
+  }, [favorites]);
+
+  // Voice commands
+  const voiceCommands: VoiceCommand[] = [
+    {
+      command: "ir para casa",
+      action: () => {
+        handleBackToHome();
+        voiceControl.speak("Voltando para a tela inicial");
+      },
+      description: "Voltar para tela inicial"
+    },
+    {
+      command: "mostrar favoritos",
+      action: () => {
+        handleShowFavorites();
+        voiceControl.speak("Mostrando seus atrativos favoritos");
+      },
+      description: "Mostrar atrativos favoritos"
+    },
+    {
+      command: "atrativos próximos",
+      action: () => {
+        handleShowNearby();
+        voiceControl.speak("Mostrando atrativos próximos");
+      },
+      description: "Mostrar atrativos próximos"
+    },
+    {
+      command: "navegar",
+      action: () => {
+        if (selectedAttraction) {
+          handleNavigateWithGPS();
+          voiceControl.speak(`Navegando para ${selectedAttraction.name}`);
+        } else {
+          voiceControl.speak("Por favor, selecione um atrativo primeiro");
+        }
+      },
+      description: "Navegar para atrativo selecionado"
+    },
+    {
+      command: "gruta lago azul",
+      action: () => {
+        const gruta = attractions.find(a => a.id === 'gruta-lago-azul');
+        if (gruta) {
+          handleAttractionClick(gruta);
+          voiceControl.speak(`Abrindo informações da ${gruta.name}`);
+        }
+      },
+      description: "Abrir Gruta do Lago Azul"
+    },
+    {
+      command: "rio da prata",
+      action: () => {
+        const rio = attractions.find(a => a.id === 'rio-da-prata');
+        if (rio) {
+          handleAttractionClick(rio);
+          voiceControl.speak(`Abrindo informações do ${rio.name}`);
+        }
+      },
+      description: "Abrir Rio da Prata"
+    }
+  ];
+
+  const voiceControl = useVoiceControl(voiceCommands);
 
   const handleMenuOpen = () => {
     toast({
       title: "Menu",
-      description: "Funcionalidade em desenvolvimento para Android Auto",
+      description: "Use comandos de voz ou toque para navegar",
     });
   };
 
@@ -41,13 +125,45 @@ const Index = () => {
     setCurrentView("home");
   };
 
-  const handleNavigate = () => {
-    if (selectedAttraction) {
+  const handleNavigateWithGPS = useCallback(() => {
+    if (!selectedAttraction) {
       toast({
-        title: "Navegando para " + selectedAttraction.name,
-        description: "Abrindo no GPS do veículo...",
+        title: "Erro",
+        description: "Selecione um atrativo primeiro",
+        variant: "destructive"
       });
+      return;
     }
+
+    const coordinates = geolocation.parseCoordinates(selectedAttraction.coordinates);
+    if (!coordinates) {
+      toast({
+        title: "Erro",
+        description: "Coordenadas inválidas para este atrativo",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (!geolocation.location) {
+      toast({
+        title: "Obtendo localização...",
+        description: "Aguarde enquanto obtemos sua localização atual"
+      });
+      geolocation.getCurrentPosition();
+      return;
+    }
+
+    geolocation.openNavigation(coordinates, selectedAttraction.name);
+    
+    toast({
+      title: "Navegando para " + selectedAttraction.name,
+      description: "Abrindo no aplicativo de navegação do dispositivo",
+    });
+  }, [selectedAttraction, geolocation]);
+
+  const handleNavigate = () => {
+    handleNavigateWithGPS();
   };
 
   const handleToggleFavorite = () => {
@@ -76,6 +192,63 @@ const Index = () => {
       title: "Favoritos",
       description: `${favoriteAttractions.length} atrativos encontrados`,
     });
+  };
+
+  const handleShowNearby = () => {
+    if (!geolocation.location) {
+      toast({
+        title: "Localização necessária",
+        description: "Permita acesso à localização para ver atrativos próximos",
+      });
+      geolocation.getCurrentPosition();
+      return;
+    }
+
+    // Calculate distances and sort by proximity
+    const attractionsWithDistance = attractions.map(attraction => {
+      const coords = geolocation.parseCoordinates(attraction.coordinates);
+      if (coords && geolocation.location) {
+        const distance = geolocation.calculateDistance(geolocation.location.coords, coords);
+        return { ...attraction, distance };
+      }
+      return { ...attraction, distance: Infinity };
+    });
+
+    const nearbyAttractions = attractionsWithDistance
+      .filter(a => a.distance !== Infinity)
+      .sort((a, b) => a.distance - b.distance)
+      .slice(0, 5);
+
+    setFilteredAttractions(nearbyAttractions);
+    toast({
+      title: "Atrativos Próximos",
+      description: `${nearbyAttractions.length} atrativos encontrados`,
+    });
+  };
+
+  const handleShowRecommended = () => {
+    const recommended = attractions.filter(a => a.rating >= 4.7);
+    setFilteredAttractions(recommended);
+    toast({
+      title: "Recomendados",
+      description: `${recommended.length} atrativos com melhor avaliação`,
+    });
+  };
+
+  const handleShowFilters = () => {
+    toast({
+      title: "Filtros",
+      description: "Use os comandos de voz ou botões de ação rápida",
+    });
+  };
+
+  const handleExplore = () => {
+    setFilteredAttractions(attractions);
+    // Smooth scroll to attractions section
+    setTimeout(() => {
+      const element = document.getElementById('attractions-section');
+      element?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
   };
 
   const handleShowNearby = () => {
