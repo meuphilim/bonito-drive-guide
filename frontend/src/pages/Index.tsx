@@ -287,17 +287,40 @@ const Index = () => {
 
   if (currentView === "detail" && selectedAttraction) {
     return (
-      <AttractionDetail
-        attraction={selectedAttraction}
-        onBack={handleBackToHome}
-        onToggleFavorite={handleToggleFavorite}
-        isFavorite={favorites.includes(selectedAttraction.id)}
-      />
+      <>
+        <OfflineIndicator isOnline={pwa.isOnline} />
+        <VoiceControl 
+          isSupported={voiceControl.isSupported}
+          isListening={voiceControl.isListening}
+          transcript={voiceControl.transcript}
+          onToggleListening={voiceControl.toggleListening}
+          commands={voiceCommands}
+        />
+        <AttractionDetail
+          attraction={selectedAttraction}
+          onBack={handleBackToHome}
+          onToggleFavorite={handleToggleFavorite}
+          isFavorite={favorites.includes(selectedAttraction.id)}
+          onNavigate={handleNavigateWithGPS}
+          userLocation={geolocation.location}
+        />
+      </>
     );
   }
 
   return (
     <div className="min-h-screen bg-background">
+      {/* PWA Components */}
+      {pwa.isInstallable && <PWABanner onInstall={pwa.installPWA} />}
+      <OfflineIndicator isOnline={pwa.isOnline} />
+      <VoiceControl 
+        isSupported={voiceControl.isSupported}
+        isListening={voiceControl.isListening}
+        transcript={voiceControl.transcript}
+        onToggleListening={voiceControl.toggleListening}
+        commands={voiceCommands}
+      />
+      
       <AutoHeader 
         onMenuOpen={handleMenuOpen}
       />
@@ -318,22 +341,40 @@ const Index = () => {
           </h3>
           <span className="text-sm text-muted-foreground">
             {filteredAttractions.length} locais
+            {geolocation.location && " • GPS ativo"}
           </span>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredAttractions.map((attraction) => (
-            <AttractionCard
-              key={attraction.id}
-              {...attraction}
-              onClick={() => handleAttractionClick(attraction)}
-            />
-          ))}
+          {filteredAttractions.map((attraction: any) => {
+            // Calculate distance if location available
+            let distance = null;
+            if (geolocation.location) {
+              const coords = geolocation.parseCoordinates(attraction.coordinates);
+              if (coords) {
+                distance = geolocation.calculateDistance(geolocation.location.coords, coords);
+              }
+            }
+
+            return (
+              <AttractionCard
+                key={attraction.id}
+                {...attraction}
+                onClick={() => handleAttractionClick(attraction)}
+                distance={distance ? geolocation.formatDistance(distance) : attraction.distance}
+              />
+            );
+          })}
         </div>
         
         {filteredAttractions.length === 0 && (
           <div className="text-center py-12">
             <p className="text-muted-foreground">Nenhum atrativo encontrado</p>
+            {!pwa.isOnline && (
+              <p className="text-sm text-muted-foreground mt-2">
+                Conecte-se à internet para ver mais atrativos
+              </p>
+            )}
           </div>
         )}
       </div>
