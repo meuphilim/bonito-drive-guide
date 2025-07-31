@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { Attraction } from '@/data/attractions';
 
-const API_BASE = import.meta.env.VITE_REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL;
+const API_BASE = import.meta.env.VITE_REACT_APP_BACKEND_URL || 'https://ceea23a8-dfe2-43ad-b181-7e8c53fb474b.preview.emergentagent.com/api';
 
 export interface AttractionFilter {
   category?: string;
