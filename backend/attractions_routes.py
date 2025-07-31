@@ -149,6 +149,10 @@ async def get_attraction(attraction_id: str):
     if not attraction:
         raise HTTPException(status_code=404, detail="Attraction not found")
     
+    # Convert field names for Pydantic compatibility
+    if 'full_description' in attraction:
+        attraction['fullDescription'] = attraction.pop('full_description')
+    
     return Attraction(**attraction)
 
 @router.post("/", response_model=Attraction)
