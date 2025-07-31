@@ -283,40 +283,6 @@ const Index = () => {
     }, 100);
   };
 
-  const handleShowNearby = () => {
-    // Simulate nearby logic - in real app would use GPS
-    setFilteredAttractions(attractions.slice(0, 3));
-    toast({
-      title: "Atrativos Próximos",
-      description: "Baseado na sua localização atual",
-    });
-  };
-
-  const handleShowRecommended = () => {
-    const recommended = attractions.filter(a => a.rating >= 4.7);
-    setFilteredAttractions(recommended);
-    toast({
-      title: "Recomendados",
-      description: `${recommended.length} atrativos com melhor avaliação`,
-    });
-  };
-
-  const handleShowFilters = () => {
-    toast({
-      title: "Filtros",
-      description: "Funcionalidade em desenvolvimento",
-    });
-  };
-
-  const handleExplore = () => {
-    setFilteredAttractions(attractions);
-    // Smooth scroll to attractions section
-    setTimeout(() => {
-      const element = document.getElementById('attractions-section');
-      element?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
-  };
-
   if (currentView === "detail" && selectedAttraction) {
     return (
       <>
