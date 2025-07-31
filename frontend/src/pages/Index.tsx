@@ -18,32 +18,45 @@ const Index = () => {
   const [selectedAttraction, setSelectedAttraction] = useState<Attraction | null>(null);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [currentView, setCurrentView] = useState<"home" | "detail">("home");
-  const [filteredAttractions, setFilteredAttractions] = useState(attractions);
+  const [filteredAttractions, setFilteredAttractions] = useState<Attraction[]>([]);
 
   // PWA hooks
   const pwa = usePWA();
   const geolocation = useGeolocation();
+  const attractionsAPI = useAttractions();
 
   useEffect(() => {
     // Force dark mode for automotive experience
     document.documentElement.classList.add('dark');
     
     // Load favorites from localStorage
-    const savedFavorites = localStorage.getItem('bonito-favorites');
-    if (savedFavorites) {
-      setFavorites(JSON.parse(savedFavorites));
+    const savedFavorites = attractionsAPI.getFavorites();
+    setFavorites(savedFavorites);
+
+    // Set initial attractions data (from API or fallback)
+    if (attractionsAPI.attractions.length > 0) {
+      setFilteredAttractions(attractionsAPI.attractions);
+    } else {
+      // Use fallback data while API loads
+      setFilteredAttractions(fallbackAttractions);
     }
 
     // Get user location on startup
     if (geolocation.isSupported) {
       geolocation.getCurrentPosition();
     }
+
+    // Load additional data
+    attractionsAPI.fetchStats();
+    attractionsAPI.fetchCategories();
   }, []);
 
-  // Save favorites to localStorage
+  // Update filtered attractions when API data changes
   useEffect(() => {
-    localStorage.setItem('bonito-favorites', JSON.stringify(favorites));
-  }, [favorites]);
+    if (attractionsAPI.attractions.length > 0) {
+      setFilteredAttractions(attractionsAPI.attractions);
+    }
+  }, [attractionsAPI.attractions]);
 
   // Voice commands
   const voiceCommands: VoiceCommand[] = [
