@@ -44,7 +44,7 @@ class StatusCheckCreate(BaseModel):
 @api_router.get("/")
 async def root():
     return {
-        "message": "Bonito Drive Guide API",
+        "message": "Ecoexpedições API",
         "version": "1.0.0",
         "endpoints": [
             "/api/attractions - Tourist attractions",
