@@ -42,10 +42,10 @@ export const PWABanner = ({ onInstall }: PWABannerProps) => {
         
         <div className="flex-1 min-w-0">
           <h4 className="font-semibold text-sm mb-1">
-            Instalar Bonito Guide
+            Instalar Ecoexpedições
           </h4>
           <p className="text-xs text-primary-foreground/90 mb-3">
-            Instale nosso app para usar offline e ter acesso rápido aos atrativos turísticos
+            Instale nosso app para usar offline e ter acesso rápido aos atrativos turísticos de Bonito, MS
           </p>
           
           <div className="flex items-center gap-2">
