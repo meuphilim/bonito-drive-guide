@@ -101,3 +101,121 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+user_problem_statement: "Testar o backend da aplicação Bonito Drive Guide que acabei de implementar. Preciso testar: 1. Endpoint de saúde: GET /api/health, 2. Listar atrativos: GET /api/attractions, 3. Obter atrativo específico: GET /api/attractions/{id} usando id 'gruta-lago-azul', 4. Estatísticas: GET /api/attractions/stats, 5. Categorias: GET /api/attractions/categories, 6. Filtros: GET /api/attractions?category=Gruta&rating_min=4.5, 7. Busca: GET /api/attractions?search=gruta"
+
+backend:
+  - task: "Health Check Endpoint"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Health check endpoint working correctly. Returns status: healthy, database: connected, version: 1.0.0. Fixed database connection test to use client.admin.command instead of db.admin.command."
+
+  - task: "List Attractions Endpoint"
+    implemented: true
+    working: true
+    file: "/app/backend/attractions_routes.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "List attractions endpoint working correctly. Returns 6 attractions with all required fields (id, name, category, rating, price, coordinates). Fixed Pydantic field name conversion issue for full_description/fullDescription."
+
+  - task: "Get Specific Attraction Endpoint"
+    implemented: true
+    working: true
+    file: "/app/backend/attractions_routes.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Get specific attraction endpoint working correctly. Successfully retrieves 'gruta-lago-azul' with all details including name, category, rating, price, duration, activities, and coordinates. Fixed field name conversion issue."
+
+  - task: "Attractions Statistics Endpoint"
+    implemented: true
+    working: true
+    file: "/app/backend/attractions_routes.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Statistics endpoint working correctly. Returns total_attractions: 6, average_rating: 4.68, categories breakdown (Gruta: 1, Rio: 2, Aventura: 1, Ecoturismo: 1, Cachoeira: 1), difficulties breakdown, and most popular attractions list."
+
+  - task: "Attractions Categories Endpoint"
+    implemented: true
+    working: true
+    file: "/app/backend/attractions_routes.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Categories endpoint working correctly. Returns 5 categories: Aventura, Cachoeira, Ecoturismo, Gruta, Rio. All expected categories are present."
+
+  - task: "Attractions Filtering"
+    implemented: true
+    working: true
+    file: "/app/backend/attractions_routes.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Filtering functionality working correctly. Successfully filters by category=Gruta and rating_min=4.5, returning 1 attraction (Gruta do Lago Azul) with rating 4.8. All filters applied correctly."
+
+  - task: "Attractions Search"
+    implemented: true
+    working: true
+    file: "/app/backend/attractions_routes.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Search functionality working correctly. Successfully searches for 'gruta' and returns 1 matching attraction (Gruta do Lago Azul). Search works on name and description fields."
+
+  - task: "Root API Endpoint"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Root API endpoint working correctly. Returns API information with message, version 1.0.0, and list of available endpoints."
+
+frontend:
+  # No frontend tasks tested as per testing agent scope
+
+metadata:
+  created_by: "testing_agent"
+  version: "1.0"
+  test_sequence: 1
+  run_ui: false
+
+test_plan:
+  current_focus: []
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+    - agent: "testing"
+      message: "Completed comprehensive backend testing for Bonito Drive Guide API. All 8 endpoints tested successfully. Fixed critical Pydantic field name conversion issue (full_description vs fullDescription) and database connection test in health endpoint. All requested endpoints are working correctly with proper data validation and error handling."
