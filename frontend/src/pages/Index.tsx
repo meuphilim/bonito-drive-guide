@@ -7,11 +7,12 @@ import { AttractionDetail } from "@/components/AttractionDetail";
 import { PWABanner } from "@/components/PWABanner";
 import { OfflineIndicator } from "@/components/OfflineIndicator";
 import { VoiceControl } from "@/components/VoiceControl";
-import { attractions, type Attraction } from "@/data/attractions";
+import { attractions as fallbackAttractions, type Attraction } from "@/data/attractions";
 import { toast } from "@/hooks/use-toast";
 import { usePWA } from "@/hooks/usePWA";
 import { useVoiceControl, type VoiceCommand } from "@/hooks/useVoiceControl";
 import { useGeolocation } from "@/hooks/useGeolocation";
+import { useAttractions } from "@/hooks/useAttractions";
 
 const Index = () => {
   const [selectedAttraction, setSelectedAttraction] = useState<Attraction | null>(null);
