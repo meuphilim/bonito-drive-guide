@@ -58,10 +58,10 @@ const Index = () => {
     }
   }, [attractionsAPI.attractions]);
 
-  // Voice commands
+  // Voice commands - Enhanced for better interaction
   const voiceCommands: VoiceCommand[] = [
     {
-      command: "ir para casa",
+      command: "início",
       action: () => {
         handleBackToHome();
         voiceControl.speak("Voltando para a tela inicial");
@@ -69,29 +69,65 @@ const Index = () => {
       description: "Voltar para tela inicial"
     },
     {
-      command: "mostrar favoritos",
+      command: "voltar",
+      action: () => {
+        handleBackToHome();
+        voiceControl.speak("Voltando para a tela inicial");
+      },
+      description: "Voltar para tela inicial"
+    },
+    {
+      command: "favoritos",
       action: () => {
         handleShowFavorites();
-        voiceControl.speak("Mostrando seus atrativos favoritos");
+        voiceControl.speak(`Mostrando ${favorites.length} atrativos favoritos`);
       },
       description: "Mostrar atrativos favoritos"
     },
     {
-      command: "atrativos próximos",
+      command: "próximos",
       action: () => {
         handleShowNearby();
-        voiceControl.speak("Mostrando atrativos próximos");
+        voiceControl.speak("Procurando atrativos próximos à sua localização");
       },
       description: "Mostrar atrativos próximos"
+    },
+    {
+      command: "perto de mim",
+      action: () => {
+        handleShowNearby();
+        voiceControl.speak("Procurando atrativos perto de você");
+      },
+      description: "Mostrar atrativos próximos"
+    },
+    {
+      command: "recomendados",
+      action: () => {
+        handleShowRecommended();
+        voiceControl.speak("Mostrando os atrativos mais bem avaliados");
+      },
+      description: "Mostrar atrativos recomendados"
     },
     {
       command: "navegar",
       action: () => {
         if (selectedAttraction) {
           handleNavigateWithGPS();
-          voiceControl.speak(`Navegando para ${selectedAttraction.name}`);
+          voiceControl.speak(`Abrindo navegação para ${selectedAttraction.name}`);
         } else {
-          voiceControl.speak("Por favor, selecione um atrativo primeiro");
+          voiceControl.speak("Por favor, selecione um atrativo primeiro para navegar");
+        }
+      },
+      description: "Navegar para atrativo selecionado"
+    },
+    {
+      command: "ir para",
+      action: () => {
+        if (selectedAttraction) {
+          handleNavigateWithGPS();
+          voiceControl.speak(`Calculando rota para ${selectedAttraction.name}`);
+        } else {
+          voiceControl.speak("Selecione um atrativo na tela para calcular a rota");
         }
       },
       description: "Navegar para atrativo selecionado"
@@ -102,7 +138,9 @@ const Index = () => {
         const gruta = filteredAttractions.find(a => a.id === 'gruta-lago-azul');
         if (gruta) {
           handleAttractionClick(gruta);
-          voiceControl.speak(`Abrindo informações da ${gruta.name}`);
+          voiceControl.speak(`Abrindo informações da Gruta do Lago Azul. Um dos cartões postais de Bonito`);
+        } else {
+          voiceControl.speak("Gruta do Lago Azul não encontrada na lista atual");
         }
       },
       description: "Abrir Gruta do Lago Azul"
@@ -113,10 +151,79 @@ const Index = () => {
         const rio = filteredAttractions.find(a => a.id === 'rio-da-prata');
         if (rio) {
           handleAttractionClick(rio);
-          voiceControl.speak(`Abrindo informações do ${rio.name}`);
+          voiceControl.speak(`Abrindo informações do Rio da Prata. Ideal para flutuação`);
+        } else {
+          voiceControl.speak("Rio da Prata não encontrado na lista atual");
         }
       },
       description: "Abrir Rio da Prata"
+    },
+    {
+      command: "abismo anhumas",
+      action: () => {
+        const abismo = filteredAttractions.find(a => a.id === 'abismo-anhumas');
+        if (abismo) {
+          handleAttractionClick(abismo);
+          voiceControl.speak(`Abrindo informações do Abismo Anhumas. Aventura com rapel de 72 metros`);
+        } else {
+          voiceControl.speak("Abismo Anhumas não encontrado na lista atual");
+        }
+      },
+      description: "Abrir Abismo Anhumas"
+    },
+    {
+      command: "grutas",
+      action: () => {
+        attractionsAPI.fetchAttractions({ category: 'Gruta' });
+        voiceControl.speak("Mostrando todas as grutas de Bonito");
+      },
+      description: "Filtrar por grutas"
+    },
+    {
+      command: "rios",
+      action: () => {
+        attractionsAPI.fetchAttractions({ category: 'Rio' });
+        voiceControl.speak("Mostrando todos os rios para flutuação");
+      },
+      description: "Filtrar por rios"
+    },
+    {
+      command: "cachoeiras",
+      action: () => {
+        attractionsAPI.fetchAttractions({ category: 'Cachoeira' });
+        voiceControl.speak("Mostrando todas as cachoeiras");
+      },
+      description: "Filtrar por cachoeiras"
+    },
+    {
+      command: "aventura",
+      action: () => {
+        attractionsAPI.fetchAttractions({ category: 'Aventura' });
+        voiceControl.speak("Mostrando atividades de aventura");
+      },
+      description: "Filtrar por aventura"
+    },
+    {
+      command: "todos atrativos",
+      action: () => {
+        handleExplore();
+        voiceControl.speak(`Mostrando todos os ${filteredAttractions.length} atrativos disponíveis`);
+      },
+      description: "Mostrar todos os atrativos"
+    },
+    {
+      command: "ajuda",
+      action: () => {
+        voiceControl.speak("Você pode dizer: favoritos, próximos, recomendados, navegar, grutas, rios, cachoeiras, ou o nome de um atrativo específico. Diga voltar para a tela inicial");
+      },
+      description: "Mostrar comandos disponíveis"
+    },
+    {
+      command: "comandos",
+      action: () => {
+        voiceControl.speak("Comandos disponíveis: diga favoritos para ver seus favoritos, próximos para atrativos perto de você, recomendados para os melhores, ou o nome de qualquer atrativo");
+      },
+      description: "Mostrar comandos disponíveis"
     }
   ];
 
