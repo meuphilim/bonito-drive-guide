@@ -8,30 +8,15 @@ import { attractions, type Attraction } from "@/data/attractions";
 import { toast } from "@/hooks/use-toast";
 
 const Index = () => {
-  const [isDark, setIsDark] = useState(false);
   const [selectedAttraction, setSelectedAttraction] = useState<Attraction | null>(null);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [currentView, setCurrentView] = useState<"home" | "detail">("home");
   const [filteredAttractions, setFilteredAttractions] = useState(attractions);
 
   useEffect(() => {
-    // Auto detect system theme
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    setIsDark(mediaQuery.matches);
-    
-    const handleChange = (e: MediaQueryListEvent) => setIsDark(e.matches);
-    mediaQuery.addEventListener('change', handleChange);
-    
-    return () => mediaQuery.removeEventListener('change', handleChange);
+    // Force dark mode for automotive experience
+    document.documentElement.classList.add('dark');
   }, []);
-
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', isDark);
-  }, [isDark]);
-
-  const handleToggleTheme = () => {
-    setIsDark(!isDark);
-  };
 
   const handleMenuOpen = () => {
     toast({
@@ -126,7 +111,6 @@ const Index = () => {
       <AttractionDetail
         attraction={selectedAttraction}
         onBack={handleBackToHome}
-        onNavigate={handleNavigate}
         onToggleFavorite={handleToggleFavorite}
         isFavorite={favorites.includes(selectedAttraction.id)}
       />
@@ -136,8 +120,6 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <AutoHeader 
-        isDark={isDark}
-        onToggleTheme={handleToggleTheme}
         onMenuOpen={handleMenuOpen}
       />
       

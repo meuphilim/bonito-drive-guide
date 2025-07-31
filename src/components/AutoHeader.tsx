@@ -1,13 +1,11 @@
-import { MapPin, Sun, Moon, Menu } from "lucide-react";
+import { MapPin, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface AutoHeaderProps {
-  isDark: boolean;
-  onToggleTheme: () => void;
   onMenuOpen: () => void;
 }
 
-export const AutoHeader = ({ isDark, onToggleTheme, onMenuOpen }: AutoHeaderProps) => {
+export const AutoHeader = ({ onMenuOpen }: AutoHeaderProps) => {
   return (
     <header className="bg-gradient-primary shadow-auto px-6 py-4">
       <div className="flex items-center justify-between max-w-7xl mx-auto">
@@ -31,14 +29,9 @@ export const AutoHeader = ({ isDark, onToggleTheme, onMenuOpen }: AutoHeaderProp
           </div>
         </div>
         
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={onToggleTheme}
-          className="text-primary-foreground hover:bg-white/20"
-        >
-          {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-        </Button>
+        <div className="text-primary-foreground/80 text-sm">
+          Modo Noturno
+        </div>
       </div>
     </header>
   );

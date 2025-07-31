@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { PhotoGallery } from "@/components/PhotoGallery";
+import { openGoogleMaps, openWaze } from "@/utils/mapsIntegration";
 import { 
   ArrowLeft, 
   Clock, 
@@ -11,13 +14,17 @@ import {
   Heart,
   Camera,
   Info,
-  Activity
+  Activity,
+  DollarSign,
+  Map,
+  Phone
 } from "lucide-react";
 
 interface AttractionDetailProps {
   attraction: {
     name: string;
     image: string;
+    photos: string[];
     duration: string;
     activities: string[];
     difficulty: "Fácil" | "Moderado" | "Difícil";
@@ -28,9 +35,9 @@ interface AttractionDetailProps {
     fullDescription: string;
     curiosities: string[];
     tips: string[];
+    price: string;
   };
   onBack: () => void;
-  onNavigate: () => void;
   onToggleFavorite: () => void;
   isFavorite: boolean;
 }
@@ -38,10 +45,19 @@ interface AttractionDetailProps {
 export const AttractionDetail = ({ 
   attraction, 
   onBack, 
-  onNavigate, 
   onToggleFavorite, 
   isFavorite 
 }: AttractionDetailProps) => {
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  
+  const handleNavigate = () => {
+    openGoogleMaps(attraction.coordinates, attraction.name);
+  };
+
+  const handleWazeNavigation = () => {
+    openWaze(attraction.coordinates);
+  };
+
   const getDifficultyColor = (level: string) => {
     switch (level) {
       case "Fácil": return "bg-secondary text-secondary-foreground";
@@ -53,12 +69,20 @@ export const AttractionDetail = ({
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Photo Gallery */}
+      <PhotoGallery 
+        photos={attraction.photos}
+        isOpen={isGalleryOpen}
+        onClose={() => setIsGalleryOpen(false)}
+      />
+
       {/* Header Image */}
       <div className="relative h-64 overflow-hidden">
         <img 
           src={attraction.image} 
           alt={attraction.name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover cursor-pointer"
+          onClick={() => setIsGalleryOpen(true)}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
         
@@ -72,14 +96,24 @@ export const AttractionDetail = ({
           >
             <ArrowLeft className="h-5 w-5" />
           </Button>
-          <Button
-            variant="secondary"
-            size="icon"
-            onClick={onToggleFavorite}
-            className={`bg-white/90 backdrop-blur-sm hover:bg-white ${isFavorite ? 'text-red-500' : ''}`}
-          >
-            <Heart className={`h-5 w-5 ${isFavorite ? 'fill-current' : ''}`} />
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              variant="secondary"
+              size="icon"
+              onClick={() => setIsGalleryOpen(true)}
+              className="bg-white/90 backdrop-blur-sm hover:bg-white"
+            >
+              <Camera className="h-5 w-5" />
+            </Button>
+            <Button
+              variant="secondary"
+              size="icon"
+              onClick={onToggleFavorite}
+              className={`bg-white/90 backdrop-blur-sm hover:bg-white ${isFavorite ? 'text-red-500' : ''}`}
+            >
+              <Heart className={`h-5 w-5 ${isFavorite ? 'fill-current' : ''}`} />
+            </Button>
+          </div>
         </div>
 
         {/* Title & Rating */}
@@ -92,6 +126,10 @@ export const AttractionDetail = ({
             <Badge className={getDifficultyColor(attraction.difficulty)}>
               {attraction.difficulty}
             </Badge>
+            <div className="flex items-center gap-1 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1">
+              <DollarSign className="h-4 w-4 text-primary" />
+              <span className="font-medium text-foreground">{attraction.price}</span>
+            </div>
           </div>
           <h1 className="text-2xl font-bold text-white">{attraction.name}</h1>
         </div>
@@ -116,15 +154,25 @@ export const AttractionDetail = ({
           </Card>
         </div>
 
-        {/* Navigation Button */}
-        <Button 
-          onClick={onNavigate}
-          className="w-full bg-gradient-primary hover:opacity-90 text-white font-semibold py-3"
-          size="lg"
-        >
-          <Navigation className="h-5 w-5 mr-2" />
-          Navegar para o Local
-        </Button>
+        {/* Navigation Buttons */}
+        <div className="grid grid-cols-2 gap-3">
+          <Button 
+            onClick={handleNavigate}
+            className="bg-gradient-primary hover:opacity-90 text-white font-semibold py-3"
+            size="lg"
+          >
+            <Map className="h-5 w-5 mr-2" />
+            Google Maps
+          </Button>
+          <Button 
+            onClick={handleWazeNavigation}
+            className="bg-gradient-nature hover:opacity-90 text-white font-semibold py-3"
+            size="lg"
+          >
+            <Navigation className="h-5 w-5 mr-2" />
+            Waze
+          </Button>
+        </div>
 
         {/* Description */}
         <Card className="p-4">
