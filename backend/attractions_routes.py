@@ -270,6 +270,11 @@ async def get_user_favorites(user_id: str):
     })
     attractions = await attractions_cursor.to_list(1000)
     
+    # Convert field names for Pydantic compatibility
+    for attraction in attractions:
+        if 'full_description' in attraction:
+            attraction['fullDescription'] = attraction.pop('full_description')
+    
     return [Attraction(**attraction) for attraction in attractions]
 
 @router.delete("/favorites/{user_id}/{attraction_id}")
