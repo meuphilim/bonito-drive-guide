@@ -1,0 +1,73 @@
+{
+  "name": "Bonito Drive Guide - Guia Turístico",
+  "short_name": "Bonito Guide",
+  "description": "Guia turístico completo de Bonito, MS - Compatível com Android Auto",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-72x72.png", 
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-96x96.png",
+      "sizes": "96x96", 
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0066CC",
+  "orientation": "any",
+  "scope": "/",
+  "categories": ["travel", "tourism", "navigation"],
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "shortcuts": [
+    {
+      "name": "Atrativos Próximos",
+      "short_name": "Próximos",
+      "description": "Ver atrativos próximos à sua localização",
+      "url": "/?action=nearby",
+      "icons": [{ "src": "/icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Favoritos",
+      "short_name": "Favoritos", 
+      "description": "Seus atrativos favoritos salvos",
+      "url": "/?action=favorites",
+      "icons": [{ "src": "/icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Navegação",
+      "short_name": "GPS",
+      "description": "Navegação GPS para atrativos",
+      "url": "/?action=navigate", 
+      "icons": [{ "src": "/icon-96x96.png", "sizes": "96x96" }]
+    }
+  ]
+}
