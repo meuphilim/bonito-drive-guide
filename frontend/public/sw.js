@@ -1,7 +1,7 @@
-const CACHE_NAME = 'bonito-guide-v1.0.0';
-const STATIC_CACHE = 'bonito-static-v1.0.0';
-const API_CACHE = 'bonito-api-v1.0.0';
-const IMAGE_CACHE = 'bonito-images-v1.0.0';
+const CACHE_NAME = 'ecoexpedicoes-v1.0.0';
+const STATIC_CACHE = 'ecoexpedicoes-static-v1.0.0';
+const API_CACHE = 'ecoexpedicoes-api-v1.0.0';
+const IMAGE_CACHE = 'ecoexpedicoes-images-v1.0.0';
 
 // Files to cache immediately
 const CORE_FILES = [
