@@ -99,7 +99,7 @@ const Index = () => {
     {
       command: "gruta lago azul",
       action: () => {
-        const gruta = attractions.find(a => a.id === 'gruta-lago-azul');
+        const gruta = filteredAttractions.find(a => a.id === 'gruta-lago-azul');
         if (gruta) {
           handleAttractionClick(gruta);
           voiceControl.speak(`Abrindo informações da ${gruta.name}`);
@@ -110,7 +110,7 @@ const Index = () => {
     {
       command: "rio da prata",
       action: () => {
-        const rio = attractions.find(a => a.id === 'rio-da-prata');
+        const rio = filteredAttractions.find(a => a.id === 'rio-da-prata');
         if (rio) {
           handleAttractionClick(rio);
           voiceControl.speak(`Abrindo informações do ${rio.name}`);
@@ -184,12 +184,14 @@ const Index = () => {
     if (selectedAttraction) {
       const isFavorite = favorites.includes(selectedAttraction.id);
       if (isFavorite) {
+        attractionsAPI.removeFromFavorites(selectedAttraction.id);
         setFavorites(favorites.filter(id => id !== selectedAttraction.id));
         toast({
           title: "Removido dos favoritos",
           description: selectedAttraction.name,
         });
       } else {
+        attractionsAPI.addToFavorites(selectedAttraction.id);
         setFavorites([...favorites, selectedAttraction.id]);
         toast({
           title: "Adicionado aos favoritos",
@@ -200,7 +202,8 @@ const Index = () => {
   };
 
   const handleShowFavorites = () => {
-    const favoriteAttractions = attractions.filter(a => favorites.includes(a.id));
+    const currentAttractions = attractionsAPI.attractions.length > 0 ? attractionsAPI.attractions : fallbackAttractions;
+    const favoriteAttractions = currentAttractions.filter(a => favorites.includes(a.id));
     setFilteredAttractions(favoriteAttractions);
     toast({
       title: "Favoritos",
@@ -218,30 +221,44 @@ const Index = () => {
       return;
     }
 
-    // Calculate distances and sort by proximity
-    const attractionsWithDistance = attractions.map(attraction => {
-      const coords = geolocation.parseCoordinates(attraction.coordinates);
-      if (coords && geolocation.location) {
-        const distance = geolocation.calculateDistance(geolocation.location.coords, coords);
-        return { ...attraction, distance };
-      }
-      return { ...attraction, distance: Infinity };
-    });
+    // Use API nearby endpoint if available
+    if (attractionsAPI.attractions.length > 0) {
+      attractionsAPI.fetchNearbyAttractions(
+        geolocation.location.coords.latitude,
+        geolocation.location.coords.longitude
+      );
+      toast({
+        title: "Atrativos Próximos",
+        description: "Carregando atrativos próximos à sua localização",
+      });
+    } else {
+      // Fallback to local calculation
+      const currentAttractions = fallbackAttractions;
+      const attractionsWithDistance = currentAttractions.map(attraction => {
+        const coords = geolocation.parseCoordinates(attraction.coordinates);
+        if (coords && geolocation.location) {
+          const distance = geolocation.calculateDistance(geolocation.location.coords, coords);
+          return { ...attraction, distance };
+        }
+        return { ...attraction, distance: Infinity };
+      });
 
-    const nearbyAttractions = attractionsWithDistance
-      .filter(a => a.distance !== Infinity)
-      .sort((a, b) => a.distance - b.distance)
-      .slice(0, 5);
+      const nearbyAttractions = attractionsWithDistance
+        .filter(a => a.distance !== Infinity)
+        .sort((a, b) => a.distance - b.distance)
+        .slice(0, 5);
 
-    setFilteredAttractions(nearbyAttractions);
-    toast({
-      title: "Atrativos Próximos",
-      description: `${nearbyAttractions.length} atrativos encontrados`,
-    });
+      setFilteredAttractions(nearbyAttractions);
+      toast({
+        title: "Atrativos Próximos",
+        description: `${nearbyAttractions.length} atrativos encontrados`,
+      });
+    }
   };
 
   const handleShowRecommended = () => {
-    const recommended = attractions.filter(a => a.rating >= 4.7);
+    const currentAttractions = attractionsAPI.attractions.length > 0 ? attractionsAPI.attractions : fallbackAttractions;
+    const recommended = currentAttractions.filter(a => a.rating >= 4.7);
     setFilteredAttractions(recommended);
     toast({
       title: "Recomendados",
@@ -257,7 +274,8 @@ const Index = () => {
   };
 
   const handleExplore = () => {
-    setFilteredAttractions(attractions);
+    const currentAttractions = attractionsAPI.attractions.length > 0 ? attractionsAPI.attractions : fallbackAttractions;
+    setFilteredAttractions(currentAttractions);
     // Smooth scroll to attractions section
     setTimeout(() => {
       const element = document.getElementById('attractions-section');
