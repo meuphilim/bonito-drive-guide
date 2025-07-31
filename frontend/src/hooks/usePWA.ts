@@ -81,7 +81,7 @@ export const usePWA = () => {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: 'Bonito Drive Guide',
+          title: 'Ecoexpedições',
           text: 'Descubra os melhores atrativos turísticos de Bonito, MS',
           url: window.location.origin,
         });
