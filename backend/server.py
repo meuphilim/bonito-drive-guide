@@ -109,7 +109,7 @@ logger = logging.getLogger(__name__)
 @app.on_event("startup")
 async def startup_event():
     """Initialize database and populate with sample data if empty"""
-    logger.info("Starting up Bonito Drive Guide API...")
+    logger.info("Starting up Ecoexpedições API...")
     
     # Check if attractions collection exists and has data
     attractions_count = await db.attractions.count_documents({})
