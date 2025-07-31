@@ -23,7 +23,7 @@ db = client[os.environ['DB_NAME']]
 
 # Create the main app without a prefix
 app = FastAPI(
-    title="Bonito Drive Guide API",
+    title="Ecoexpedições API",
     description="API para guia turístico de Bonito, MS - PWA Android Auto",
     version="1.0.0"
 )
