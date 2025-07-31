@@ -324,4 +324,9 @@ async def get_nearby_attractions(
     nearby_attractions.sort(key=lambda x: x.get("calculated_distance", float("inf")))
     nearby_attractions = nearby_attractions[:limit]
     
+    # Convert field names for Pydantic compatibility
+    for attraction in nearby_attractions:
+        if 'full_description' in attraction:
+            attraction['fullDescription'] = attraction.pop('full_description')
+    
     return [Attraction(**attraction) for attraction in nearby_attractions]
