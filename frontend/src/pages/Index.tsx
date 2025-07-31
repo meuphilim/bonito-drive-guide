@@ -1,11 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { AutoHeader } from "@/components/AutoHeader";
 import { HeroSection } from "@/components/HeroSection";
 import { QuickActions } from "@/components/QuickActions";
 import { AttractionCard } from "@/components/AttractionCard";
 import { AttractionDetail } from "@/components/AttractionDetail";
+import { PWABanner } from "@/components/PWABanner";
+import { OfflineIndicator } from "@/components/OfflineIndicator";
+import { VoiceControl } from "@/components/VoiceControl";
 import { attractions, type Attraction } from "@/data/attractions";
 import { toast } from "@/hooks/use-toast";
+import { usePWA } from "@/hooks/usePWA";
+import { useVoiceControl, type VoiceCommand } from "@/hooks/useVoiceControl";
+import { useGeolocation } from "@/hooks/useGeolocation";
 
 const Index = () => {
   const [selectedAttraction, setSelectedAttraction] = useState<Attraction | null>(null);
