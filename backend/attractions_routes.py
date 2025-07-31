@@ -64,6 +64,11 @@ async def get_attractions(
     cursor = db.attractions.find(filter_query).skip(skip).limit(limit)
     attractions = await cursor.to_list(length=limit)
     
+    # Convert field names for Pydantic compatibility
+    for attraction in attractions:
+        if 'full_description' in attraction:
+            attraction['fullDescription'] = attraction.pop('full_description')
+    
     return [Attraction(**attraction) for attraction in attractions]
 
 @router.get("/categories")
