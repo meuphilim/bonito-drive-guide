@@ -225,7 +225,7 @@ self.addEventListener('push', (event) => {
       body: data.body || 'Nova informação disponível',
       icon: '/icon-192x192.png',
       badge: '/icon-72x72.png',
-      tag: 'bonito-notification',
+      tag: 'ecoexpedicoes-notification',
       requireInteraction: true,
       actions: [
         { action: 'open', title: 'Abrir App' },
@@ -234,7 +234,7 @@ self.addEventListener('push', (event) => {
     };
     
     event.waitUntil(
-      self.registration.showNotification(data.title || 'Bonito Guide', options)
+      self.registration.showNotification(data.title || 'Ecoexpedições', options)
     );
   }
 });
