@@ -1,66 +1,24 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-    <title>Ecoexpedições - Guia Turístico Android Auto</title>
-    <meta name="description" content="Guia turístico completo de Bonito, MS - PWA compatível com Android Auto para descobrir os melhores atrativos turísticos" />
-    <meta name="author" content="Ecoexpedições" />
-    <meta name="keywords" content="ecoexpedições, bonito, mato grosso do sul, turismo, android auto, pwa, gruta lago azul, rio da prata" />
-    
-    <!-- PWA Configuration -->
-    <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#0066CC" />
-    <meta name="background-color" content="#0a0a0a" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Ecoexpedições" />
-    <meta name="msapplication-TileColor" content="#0066CC" />
-    <meta name="msapplication-tap-highlight" content="no" />
-    
-    <!-- Android Auto Optimizations -->
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="screen-orientation" content="any" />
-    <meta name="full-screen" content="yes" />
-    
-    <!-- Icons for different devices -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/icon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/icon-16x16.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0066CC" />
-    
-    <!-- Open Graph -->
-    <meta property="og:title" content="Ecoexpedições - Guia Turístico Android Auto" />
-    <meta property="og:description" content="Descubra os melhores atrativos turísticos de Bonito, MS com nossa PWA compatível com Android Auto" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bonito Drive - Guia Turístico Android Auto</title>
+    <meta name="description" content="Aplicação Android Auto para turismo em Bonito, MS - Guia completo dos atrativos turísticos" />
+    <meta name="author" content="Lovable" />
+
+    <meta property="og:title" content="bonito-drive-guide" />
+    <meta property="og:description" content="Lovable Generated Project" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/icon-512x512.png" />
-    <meta property="og:locale" content="pt_BR" />
-    
-    <!-- Twitter Card -->
+    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Ecoexpedições" />
-    <meta name="twitter:description" content="Guia turístico completo de Bonito, MS" />
-    <meta name="twitter:image" content="/icon-512x512.png" />
+    <meta name="twitter:site" content="@lovable_dev" />
+    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
   </head>
 
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    
-    <!-- Service Worker Registration -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .then((registration) => {
-              console.log('SW registered: ', registration);
-            })
-            .catch((registrationError) => {
-              console.log('SW registration failed: ', registrationError);
-            });
-        });
-      }
-    </script>
   </body>
 </html>

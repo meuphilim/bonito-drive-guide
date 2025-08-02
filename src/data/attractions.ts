@@ -1,4 +1,11 @@
-// Using online image URLs instead of local assets
+import grutaLagoAzul from "@/assets/gruta-lago-azul.jpg";
+import rioDaPrata from "@/assets/rio-da-prata.jpg";
+import abismoAnhumas from "@/assets/abismo-anhumas.jpg";
+import rioSucuri from "@/assets/rio-sucuri.jpg";
+import buracoAraras from "@/assets/buraco-das-araras.jpg";
+import estanciaMimosa from "@/assets/estancia-mimosa.jpg";
+import aquarioNatural from "@/assets/aquario-natural.jpg";
+import lagoaMisteriosa from "@/assets/lagoa-misteriosa.jpg";
 
 export interface Attraction {
   id: string;
@@ -23,12 +30,8 @@ export const attractions: Attraction[] = [
   {
     id: "gruta-lago-azul",
     name: "Gruta do Lago Azul",
-    image: "https://images.unsplash.com/photo-1534447677712-7e5b1a9d9b4f",
-    photos: [
-      "https://images.unsplash.com/photo-1534447677712-7e5b1a9d9b4f",
-      "https://images.unsplash.com/photo-1574607383476-f517f260d30b",
-      "https://images.unsplash.com/photo-1557750255-c76072a7aad1"
-    ],
+    image: grutaLagoAzul,
+    photos: [grutaLagoAzul, grutaLagoAzul, grutaLagoAzul], // Placeholder - would have multiple real photos
     duration: "1h 30min",
     activities: ["Caminhada", "Contemplação", "Fotografia"],
     difficulty: "Fácil",
@@ -55,12 +58,8 @@ export const attractions: Attraction[] = [
   {
     id: "rio-da-prata",
     name: "Rio da Prata",
-    image: "https://images.unsplash.com/photo-1573160813453-0df4a4792090",
-    photos: [
-      "https://images.unsplash.com/photo-1573160813453-0df4a4792090",
-      "https://images.unsplash.com/photo-1580267604631-e2d3b4f5d6e4",
-      "https://images.unsplash.com/photo-1571770095285-40a32c9ee95d"
-    ],
+    image: rioDaPrata,
+    photos: [rioDaPrata, rioDaPrata, rioDaPrata],
     duration: "4h",
     activities: ["Flutuação", "Snorkeling", "Trilha Ecológica", "Observação da Fauna"],
     difficulty: "Fácil",
@@ -87,12 +86,8 @@ export const attractions: Attraction[] = [
   {
     id: "abismo-anhumas",
     name: "Abismo Anhumas",
-    image: "https://images.unsplash.com/photo-1519904981063-b0cf448d479e",
-    photos: [
-      "https://images.unsplash.com/photo-1519904981063-b0cf448d479e",
-      "https://images.unsplash.com/photo-1580267747235-d0a40f1b8a58",
-      "https://images.unsplash.com/photo-1574607383476-f517f260d30b"
-    ],
+    image: abismoAnhumas,
+    photos: [abismoAnhumas, abismoAnhumas, abismoAnhumas],
     duration: "4h",
     activities: ["Rapel", "Mergulho", "Flutuação", "Espeleologia"],
     difficulty: "Difícil",
@@ -119,12 +114,8 @@ export const attractions: Attraction[] = [
   {
     id: "rio-sucuri",
     name: "Rio Sucuri",
-    image: "https://images.unsplash.com/photo-1571770095285-40a32c9ee95d",
-    photos: [
-      "https://images.unsplash.com/photo-1571770095285-40a32c9ee95d",
-      "https://images.unsplash.com/photo-1573160813453-0df4a4792090",
-      "https://images.unsplash.com/photo-1580267604631-e2d3b4f5d6e4"
-    ],
+    image: rioSucuri,
+    photos: [rioSucuri, rioSucuri, rioSucuri],
     duration: "3h",
     activities: ["Flutuação", "Observação da Fauna", "Trilha", "Fotografia"],
     difficulty: "Fácil",
@@ -151,12 +142,8 @@ export const attractions: Attraction[] = [
   {
     id: "buraco-das-araras",
     name: "Buraco das Araras",
-    image: "https://images.unsplash.com/photo-1591280063332-45a3a15bcf47",
-    photos: [
-      "https://images.unsplash.com/photo-1591280063332-45a3a15bcf47",
-      "https://images.unsplash.com/photo-1571728480887-7e6c60b3ee1f",
-      "https://images.unsplash.com/photo-1568459750992-6db4ac31c75c"
-    ],
+    image: buracoAraras,
+    photos: [buracoAraras, buracoAraras, buracoAraras],
     duration: "2h",
     activities: ["Observação de Aves", "Trilha", "Fotografia", "Contemplação"],
     difficulty: "Fácil",
@@ -179,6 +166,146 @@ export const attractions: Attraction[] = [
     ],
     category: "Ecoturismo",
     price: "R$ 78,00"
+  },
+  {
+    id: "estancia-mimosa",
+    name: "Estância Mimosa",
+    image: estanciaMimosa,
+    photos: [estanciaMimosa, estanciaMimosa, estanciaMimosa],
+    duration: "5h",
+    activities: ["Trilha", "Banho de Cachoeira", "Observação da Fauna", "Turismo Rural"],
+    difficulty: "Moderado",
+    rating: 4.4,
+    description: "Ecoturismo em fazenda preservada com trilhas, cachoeiras e rica biodiversidade do Cerrado.",
+    distance: "35 km",
+    coordinates: "-21.2833, -56.6167",
+    fullDescription: "A Estância Mimosa é uma propriedade rural voltada ao ecoturismo sustentável. Oferece trilhas interpretativas pela mata nativa, banhos em cachoeiras naturais e a oportunidade de conhecer o manejo sustentável da propriedade.",
+    curiosities: [
+      "Possui 8 cachoeiras em sequência",
+      "Área de preservação de 300 hectares",
+      "Mais de 200 espécies de aves catalogadas",
+      "Exemplo de turismo rural sustentável"
+    ],
+    tips: [
+      "Use tênis de trekking",
+      "Leve roupa de banho",
+      "Protetor solar biodegradável",
+      "Hidrate-se constantemente"
+    ],
+    category: "Ecoturismo",
+    price: "R$ 168,00"
+  },
+  {
+    id: "aquario-natural",
+    name: "Aquário Natural",
+    image: aquarioNatural,
+    photos: [aquarioNatural, aquarioNatural, aquarioNatural],
+    duration: "3h",
+    activities: ["Flutuação", "Tirolesa", "Trilha", "Observação da Fauna"],
+    difficulty: "Fácil",
+    rating: 4.7,
+    description: "Nascente cristalina do Rio Formoso, perfeita para flutuação e contemplação da vida aquática.",
+    distance: "12 km",
+    coordinates: "-21.0500, -56.5000",
+    fullDescription: "O Aquário Natural é uma das nascentes mais bonitas do Rio Formoso. Suas águas cristalinas abrigam grande diversidade de peixes e plantas aquáticas, proporcionando uma experiência única de flutuação em ambiente natural preservado.",
+    curiosities: [
+      "Nascente principal do Rio Formoso",
+      "Mais de 20 espécies de peixes catalogadas",
+      "Água mantém temperatura de 26°C o ano todo",
+      "Permite visualização subaquática de até 30 metros"
+    ],
+    tips: [
+      "Ideal para famílias com crianças",
+      "Combine com visita ao Eco Park",
+      "Evite usar produtos químicos",
+      "Melhor período: manhã"
+    ],
+    category: "Rio",
+    price: "R$ 158,00"
+  },
+  {
+    id: "lagoa-misteriosa",
+    name: "Lagoa Misteriosa",
+    image: lagoaMisteriosa,
+    photos: [lagoaMisteriosa, lagoaMisteriosa, lagoaMisteriosa],
+    duration: "3h",
+    activities: ["Mergulho", "Flutuação", "Contemplação"],
+    difficulty: "Moderado",
+    rating: 4.3,
+    description: "Lagoa de águas azul-turquesa com profundidade ainda não totalmente explorada.",
+    distance: "28 km",
+    coordinates: "-21.2000, -56.5500",
+    fullDescription: "A Lagoa Misteriosa é uma das atrações mais enigmáticas de Bonito. Suas águas azul-turquesa escondem uma profundidade que já foi explorada até 220 metros, mas ainda não se conhece o fundo real. É possível fazer flutuação e mergulho credenciado.",
+    curiosities: [
+      "Profundidade conhecida: mais de 220 metros",
+      "Águas com coloração azul-turquesa única",
+      "Temperatura constante de 22°C",
+      "Formação geológica ainda em estudo"
+    ],
+    tips: [
+      "Necessário certificação para mergulho",
+      "Flutuação disponível para todos",
+      "Reserve com antecedência",
+      "Combine com outros atrativos da região"
+    ],
+    category: "Mergulho",
+    price: "R$ 245,00"
+  },
+  {
+    id: "balneario-municipal",
+    name: "Balneário Municipal",
+    image: rioDaPrata, // Usando imagem similar
+    photos: [rioDaPrata, rioDaPrata, rioDaPrata],
+    duration: "Livre",
+    activities: ["Banho", "Relaxamento", "Observação de Peixes", "Recreação"],
+    difficulty: "Fácil",
+    rating: 4.2,
+    description: "Área de lazer pública às margens do Rio Formoso, ideal para famílias.",
+    distance: "5 km",
+    coordinates: "-21.1333, -56.4833",
+    fullDescription: "O Balneário Municipal é uma área pública de lazer localizada às margens do Rio Formoso. Oferece infraestrutura básica para banho e recreação, sendo uma opção econômica para famílias conhecerem as águas cristalinas de Bonito.",
+    curiosities: [
+      "Única atração pública gratuita da cidade",
+      "Águas do Rio Formoso",
+      "Frequentado por famílias locais",
+      "Infraestrutura simples mas funcional"
+    ],
+    tips: [
+      "Leve lanches e bebidas",
+      "Melhor horário: início da manhã",
+      "Evite finais de semana lotados",
+      "Combine com centro histórico"
+    ],
+    category: "Balneário",
+    price: "Gratuito"
+  },
+  {
+    id: "boca-da-onca",
+    name: "Boca da Onça",
+    image: estanciaMimosa, // Usando imagem similar de cachoeira
+    photos: [estanciaMimosa, estanciaMimosa, estanciaMimosa],
+    duration: "6h",
+    activities: ["Trilha", "Rapel", "Cachoeiras", "Observação da Fauna"],
+    difficulty: "Moderado",
+    rating: 4.6,
+    description: "Maior cachoeira de Mato Grosso do Sul com trilhas ecológicas e atividades radicais.",
+    distance: "45 km",
+    coordinates: "-21.3000, -56.6000",
+    fullDescription: "O complexo Boca da Onça abriga a maior cachoeira de MS com 156 metros de altura. Oferece trilhas ecológicas, rapel na cachoeira e várias quedas d'água para banho. É um dos destinos mais completos para ecoturismo na região.",
+    curiosities: [
+      "Maior cachoeira de Mato Grosso do Sul",
+      "Queda principal de 156 metros",
+      "Mais de 4 trilhas diferentes",
+      "Rica fauna e flora do Cerrado"
+    ],
+    tips: [
+      "Use calçados apropriados para trilha",
+      "Leve bastante água",
+      "Protetor solar biodegradável",
+      "Reserve dia inteiro"
+    ],
+    category: "Cachoeira",
+    price: "R$ 178,00"
   }
 ];
 

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Clock, Thermometer } from "lucide-react";
-// Using online image URL instead of local asset
+import bonitoHero from "@/assets/bonito-hero.jpg";
 
 interface HeroSectionProps {
   onExplore: () => void;
@@ -11,7 +11,7 @@ export const HeroSection = ({ onExplore }: HeroSectionProps) => {
   return (
     <div className="relative h-96 overflow-hidden rounded-2xl mx-4 my-6 shadow-auto">
       <img 
-        src="https://images.unsplash.com/photo-1539650116574-75c0c6d68370" 
+        src={bonitoHero} 
         alt="Bonito MS - Águas Cristalinas" 
         className="w-full h-full object-cover"
       />
