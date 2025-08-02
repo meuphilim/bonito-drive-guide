@@ -282,8 +282,12 @@ export const attractions: Attraction[] = [
   {
     id: "boca-da-onca",
     name: "Boca da Onça",
-    image: estanciaMimosa, // Usando imagem similar de cachoeira
-    photos: [estanciaMimosa, estanciaMimosa, estanciaMimosa],
+    image: "https://images.unsplash.com/photo-1641823070017-bb8a52a5fd59?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzd8MHwxfHNlYXJjaHwxfHxib25pdG8lMjB3YXRlcmZhbGxzfGVufDB8fHx8MTc1Mzk5MTgyMXww&ixlib=rb-4.1.0&q=85",
+    photos: [
+      "https://images.unsplash.com/photo-1641823070017-bb8a52a5fd59?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzd8MHwxfHNlYXJjaHwxfHxib25pdG8lMjB3YXRlcmZhbGxzfGVufDB8fHx8MTc1Mzk5MTgyMXww&ixlib=rb-4.1.0&q=85",
+      "https://images.unsplash.com/photo-1543881131-20e6b1e7c81a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzd8MHwxfHNlYXJjaHwzfHxib25pdG8lMjB3YXRlcmZhbGxzfGVufDB8fHx8MTc1Mzk5MTgyMXww&ixlib=rb-4.1.0&q=85",
+      "https://images.unsplash.com/photo-1535392244477-7cb534eece28?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzd8MHwxfHNlYXJjaHw0fHxib25pdG8lMjB3YXRlcmZhbGxzfGVufDB8fHx8MTc1Mzk5MTgyMXww&ixlib=rb-4.1.0&q=85"
+    ],
     duration: "6h",
     activities: ["Trilha", "Rapel", "Cachoeiras", "Observação da Fauna"],
     difficulty: "Moderado",
@@ -306,6 +310,186 @@ export const attractions: Attraction[] = [
     ],
     category: "Cachoeira",
     price: "R$ 178,00"
+  },
+  {
+    id: "nascente-rio-formoso",
+    name: "Nascente do Rio Formoso",
+    image: "https://images.unsplash.com/photo-1673879279182-76be6b52075c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDF8MHwxfHNlYXJjaHwzfHxjcnlzdGFsJTIwY2F2ZXN8ZW58MHx8fHwxNzUzOTkxODI4fDA&ixlib=rb-4.1.0&q=85",
+    photos: [
+      "https://images.unsplash.com/photo-1673879279182-76be6b52075c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDF8MHwxfHNlYXJjaHwzfHxjcnlzdGFsJTIwY2F2ZXN8ZW58MHx8fHwxNzUzOTkxODI4fDA&ixlib=rb-4.1.0&q=85",
+      "https://images.pexels.com/photos/12125343/pexels-photo-12125343.jpeg",
+      "https://images.pexels.com/photos/17134558/pexels-photo-17134558.jpeg"
+    ],
+    duration: "2h",
+    activities: ["Contemplação", "Banho Termal", "Fotografia", "Relaxamento"],
+    difficulty: "Fácil",
+    rating: 4.5,
+    description: "Águas termais cristalinas que dão origem ao Rio Formoso, ideal para relaxamento.",
+    distance: "8 km",
+    coordinates: "-21.0833, -56.4667",
+    fullDescription: "A Nascente do Rio Formoso é uma das fontes de águas termais mais belas da região. Com temperatura constante de 26°C, oferece um ambiente perfeito para relaxamento e contemplação. É possível observar a nascente brotando do solo calcário.",
+    curiosities: [
+      "Temperatura constante de 26°C o ano todo",
+      "Água brota diretamente do solo calcário",
+      "Volume de 12 mil litros por segundo",
+      "Rica em minerais naturais"
+    ],
+    tips: [
+      "Ideal para relaxamento",
+      "Use roupa de banho",
+      "Evite sabonetes e shampoos",
+      "Melhor horário: manhã"
+    ],
+    category: "Balneário",
+    price: "R$ 65,00"
+  },
+  {
+    id: "grutas-sao-miguel",
+    name: "Grutas de São Miguel",
+    image: "https://images.unsplash.com/photo-1691723576318-90ad87e5842d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDF8MHwxfHNlYXJjaHwxfHxjcnlzdGFsJTIwY2F2ZXN8ZW58MHx8fHwxNzUzOTkxODI4fDA&ixlib=rb-4.1.0&q=85",
+    photos: [
+      "https://images.unsplash.com/photo-1691723576318-90ad87e5842d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDF8MHwxfHNlYXJjaHwxfHxjcnlzdGFsJTIwY2F2ZXN8ZW58MHx8fHwxNzUzOTkxODI4fDA&ixlib=rb-4.1.0&q=85",
+      grutaLagoAzul,
+      grutaLagoAzul
+    ],
+    duration: "2h 30min",
+    activities: ["Espeleologia", "Contemplação", "Fotografia", "Caminhada"],
+    difficulty: "Fácil",
+    rating: 4.3,
+    description: "Complexo de grutas calcárias com formações rochosas milenares e história geológica fascinante.",
+    distance: "32 km",
+    coordinates: "-21.2500, -56.5500",
+    fullDescription: "As Grutas de São Miguel formam um complexo de cavernas calcárias com impressionantes formações de estalactites e estalagmites. O local oferece uma viagem no tempo através da história geológica da região, com explicações sobre a formação das rochas.",
+    curiosities: [
+      "Formações rochosas de milhões de anos",
+      "Encontrados fósseis de animais pré-históricos",
+      "Temperatura constante de 20°C no interior",
+      "Diferentes salões com características únicas"
+    ],
+    tips: [
+      "Use calçados fechados",
+      "Leve agasalho leve",
+      "Não toque nas formações",
+      "Guia especializado obrigatório"
+    ],
+    category: "Gruta",
+    price: "R$ 85,00"
+  },
+  {
+    id: "cachoeira-rio-peixe",
+    name: "Cachoeira do Rio do Peixe",
+    image: "https://images.pexels.com/photos/17705837/pexels-photo-17705837.jpeg",
+    photos: [
+      "https://images.pexels.com/photos/17705837/pexels-photo-17705837.jpeg",
+      "https://images.pexels.com/photos/17705841/pexels-photo-17705841.jpeg",
+      estanciaMimosa
+    ],
+    duration: "4h",
+    activities: ["Banho de Cachoeira", "Trilha", "Observação da Fauna", "Piquenique"],
+    difficulty: "Moderado",
+    rating: 4.4,
+    description: "Cachoeira ideal para banho com águas refrescantes e trilha pela mata nativa.",
+    distance: "28 km",
+    coordinates: "-21.2000, -56.5200",
+    fullDescription: "A Cachoeira do Rio do Peixe oferece uma experiência completa de ecoturismo com trilha pela mata nativa, observação da fauna local e banho em poço natural. É um destino perfeito para famílias em busca de contato com a natureza.",
+    curiosities: [
+      "Queda d'água de 15 metros",
+      "Poço natural ideal para banho",
+      "Rica biodiversidade na trilha",
+      "Frequentada por famílias locais"
+    ],
+    tips: [
+      "Leve lanche e água",
+      "Use tênis de trilha",
+      "Protetor solar biodegradável",
+      "Evite finais de semana lotados"
+    ],
+    category: "Cachoeira",
+    price: "R$ 95,00"
+  },
+  {
+    id: "projeto-jiboia",
+    name: "Projeto Jiboia",
+    image: estanciaMimosa, // Usando imagem similar de natureza
+    photos: [estanciaMimosa, estanciaMimosa, estanciaMimosa],
+    duration: "2h",
+    activities: ["Educação Ambiental", "Observação de Répteis", "Trilha Interpretativa", "Palestras"],
+    difficulty: "Fácil",
+    rating: 4.2,
+    description: "Centro de educação ambiental focado na conservação de serpentes e répteis da região.",
+    distance: "15 km",
+    coordinates: "-21.1200, -56.4900",
+    fullDescription: "O Projeto Jiboia é um centro de educação ambiental dedicado à conservação de serpentes e outros répteis do Pantanal. Oferece palestras educativas, exposição de animais e trilhas interpretativas para conscientização ambiental.",
+    curiosities: [
+      "Mais de 20 espécies de serpentes",
+      "Programa de educação ambiental",
+      "Resgate e reabilitação de animais",
+      "Pesquisa científica sobre répteis"
+    ],
+    tips: [
+      "Ideal para grupos escolares",
+      "Agendar visita antecipadamente",
+      "Palestra educativa incluída",
+      "Não é permitido tocar nos animais"
+    ],
+    category: "Ecoturismo",
+    price: "R$ 35,00"
+  },
+  {
+    id: "rio-formoso-eco-park",
+    name: "Rio Formoso Eco Park",
+    image: aquarioNatural,
+    photos: [aquarioNatural, rioDaPrata, rioDaPrata],
+    duration: "3h 30min",
+    activities: ["Flutuação", "Aquário Natural", "Trilha", "Observação de Peixes"],
+    difficulty: "Fácil",
+    rating: 4.6,
+    description: "Complexo de lazer com flutuação no Rio Formoso e aquário natural com peixes ornamentais.",
+    distance: "6 km",
+    coordinates: "-21.1000, -56.4700",
+    fullDescription: "O Rio Formoso Eco Park combina lazer e contato com a natureza. Oferece flutuação no Rio Formoso, aquário natural com peixes ornamentais e infraestrutura completa para famílias. É uma opção ideal para quem busca atividades aquáticas seguras.",
+    curiosities: [
+      "Mais de 15 espécies de peixes ornamentais",
+      "Rio Formoso passa pelo complexo",
+      "Infraestrutura familiar completa",
+      "Flutuação de 1,2 km"
+    ],
+    tips: [
+      "Ideal para crianças",
+      "Infraestrutura com restaurante",
+      "Flutuação assistida disponível",
+      "Combine com outras atividades"
+    ],
+    category: "Rio",
+    price: "R$ 198,00"
+  },
+  {
+    id: "fazenda-san-francisco",
+    name: "Fazenda San Francisco",
+    image: estanciaMimosa,
+    photos: [estanciaMimosa, estanciaMimosa, estanciaMimosa],
+    duration: "5h",
+    activities: ["Trilha", "Cachoeira", "Turismo Rural", "Almoço Típico"],
+    difficulty: "Moderado",
+    rating: 4.3,
+    description: "Fazenda histórica com cachoeiras, trilhas e experiência autêntica de turismo rural.",
+    distance: "38 km",
+    coordinates: "-21.2700, -56.5800",
+    fullDescription: "A Fazenda San Francisco oferece uma experiência autêntica de turismo rural com trilhas pela propriedade, banho em cachoeiras naturais e almoço típico da região. É uma oportunidade de conhecer a cultura local e a história da pecuária em MS.",
+    curiosities: [
+      "Fazenda centenária",
+      "Preserva tradições locais",
+      "Cachoeira particular de 20 metros",
+      "Almoço com produtos da fazenda"
+    ],
+    tips: [
+      "Reserve com antecedência",
+      "Inclui almoço típico",
+      "Use roupas confortáveis",
+      "Experiência cultural autêntica"
+    ],
+    category: "Ecoturismo",
+    price: "R$ 285,00"
   }
 ];
 

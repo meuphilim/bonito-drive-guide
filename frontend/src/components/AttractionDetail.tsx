@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { PhotoGallery } from "@/components/PhotoGallery";
 import { openGoogleMaps, openWaze } from "@/utils/mapsIntegration";
+import type { LocationData } from "@/hooks/useGeolocation";
 import { 
   ArrowLeft, 
   Clock, 
@@ -17,7 +18,9 @@ import {
   Activity,
   DollarSign,
   Map,
-  Phone
+  Phone,
+  Navigation2,
+  Compass
 } from "lucide-react";
 
 interface AttractionDetailProps {
@@ -40,18 +43,27 @@ interface AttractionDetailProps {
   onBack: () => void;
   onToggleFavorite: () => void;
   isFavorite: boolean;
+  onNavigate?: () => void;
+  userLocation?: LocationData | null;
 }
 
 export const AttractionDetail = ({ 
   attraction, 
   onBack, 
   onToggleFavorite, 
-  isFavorite 
+  isFavorite,
+  onNavigate,
+  userLocation
 }: AttractionDetailProps) => {
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   
   const handleNavigate = () => {
-    openGoogleMaps(attraction.coordinates, attraction.name);
+    if (onNavigate) {
+      onNavigate();
+    } else {
+      // Fallback to old method
+      openGoogleMaps(attraction.coordinates, attraction.name);
+    }
   };
 
   const handleWazeNavigation = () => {

@@ -1,0 +1,128 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+  # Allow manual trigger
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+        
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'yarn'
+        cache-dependency-path: 'frontend/yarn.lock'
+        
+    - name: Setup Pages
+      uses: actions/configure-pages@v3
+      
+    - name: Install dependencies
+      run: |
+        cd frontend
+        yarn install --frozen-lockfile
+        
+    - name: Create production environment file
+      run: |
+        cd frontend
+        echo "VITE_REACT_APP_BACKEND_URL=https://api.ecoexpedicoes.com/api" > .env.production
+        echo "NODE_ENV=production" >> .env.production
+        
+    - name: Build application
+      run: |
+        cd frontend
+        yarn build
+        
+    - name: Add custom domain (optional)
+      run: |
+        cd frontend
+        # Uncomment the next line and replace with your domain
+        # echo "ecoexpedicoes.com" > build/CNAME
+        
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: './frontend/build'
+
+  # Deployment job  
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v2
+      
+    - name: Summary
+      run: |
+        echo "🚀 Ecoexpedições deployed successfully!"
+        echo "📱 PWA Features: ✅ Offline Support ✅ Android Auto Compatible ✅ Voice Control"
+        echo "🌐 URL: ${{ steps.deployment.outputs.page_url }}"
+        
+  # Health check job (runs after deployment)
+  health-check:
+    runs-on: ubuntu-latest
+    needs: deploy
+    
+    steps:
+    - name: Wait for deployment
+      run: sleep 30
+      
+    - name: Check website health
+      run: |
+        URL="${{ needs.deploy.outputs.page_url }}"
+        echo "Checking health of: $URL"
+        
+        # Check if site returns 200
+        if curl -f -s -o /dev/null "$URL"; then
+          echo "✅ Website is healthy and accessible"
+          
+          # Check for PWA manifest
+          if curl -f -s -o /dev/null "$URL/manifest.json"; then
+            echo "✅ PWA manifest is accessible"
+          else
+            echo "⚠️  PWA manifest not found"
+          fi
+          
+          # Check for service worker
+          if curl -f -s -o /dev/null "$URL/sw.js"; then
+            echo "✅ Service Worker is accessible"
+          else
+            echo "⚠️  Service Worker not found"
+          fi
+          
+        else
+          echo "❌ Website health check failed"
+          exit 1
+        fi
