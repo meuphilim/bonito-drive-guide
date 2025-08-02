@@ -344,15 +344,15 @@ const Index = () => {
       const attractionsWithDistance = currentAttractions.map(attraction => {
         const coords = geolocation.parseCoordinates(attraction.coordinates);
         if (coords && geolocation.location) {
-          const distance = geolocation.calculateDistance(geolocation.location.coords, coords);
-          return { ...attraction, distance };
+          const distanceKm = geolocation.calculateDistance(geolocation.location.coords, coords);
+          return { ...attraction, distanceKm };
         }
-        return { ...attraction, distance: Infinity };
+        return { ...attraction, distanceKm: Infinity };
       });
 
       const nearbyAttractions = attractionsWithDistance
-        .filter(a => a.distance !== Infinity)
-        .sort((a, b) => a.distance - b.distance)
+        .filter(a => a.distanceKm !== Infinity)
+        .sort((a, b) => a.distanceKm - b.distanceKm)
         .slice(0, 5);
 
       setFilteredAttractions(nearbyAttractions);
